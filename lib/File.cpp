@@ -4,7 +4,7 @@
 
 avg::File::FileWatcher::FileWatcher(char* path) :
 path(path) {
-
+    lastCheck = 0;
 }
 
 bool avg::File::FileWatcher::check() {
