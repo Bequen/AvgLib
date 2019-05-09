@@ -7,7 +7,7 @@
 #include <iostream>
 #include <glm/gtx/norm.hpp>
 
-PerlinNoise::PerlinNoise() : 
+avg::PerlinNoise::PerlinNoise() : 
 seed(2016), gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]){
         std::mt19937 generator(2016); 
         std::uniform_real_distribution distribution; 
@@ -33,20 +33,20 @@ seed(2016), gradients(new glm::vec3[256]), size(256), sizeMask(255), permutation
         } 
 }
 
-int32_t PerlinNoise::hash(int32_t x, int32_t y, int32_t z) {
+int32_t avg::PerlinNoise::hash(int32_t x, int32_t y, int32_t z) {
     return permutationTable[permutationTable[permutationTable[x] + y] + z];
 }
 
-float PerlinNoise::smoothstep(float t) {
+float avg::PerlinNoise::smoothstep(float t) {
     //return a * a * (3 - 2 * a);
     return t * t * t * (t * (t * 6 - 15) + 10);
 }
 
-float PerlinNoise::lerp(float a, float b, float t) {
+float avg::PerlinNoise::lerp(float a, float b, float t) {
     return a * (1 - t) + b * t;
 }
 
-float PerlinNoise::eval(float x, float y, float z) {
+float avg::PerlinNoise::eval(float x, float y, float z) {
         int xi0 = ((int)std::floor(x)) & sizeMask; 
         int yi0 = ((int)std::floor(y)) & sizeMask; 
         int zi0 = ((int)std::floor(z)) & sizeMask; 

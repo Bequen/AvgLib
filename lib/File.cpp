@@ -2,12 +2,12 @@
 
 #include <unistd.h>
 
-File::FileWatcher::FileWatcher(char* path) :
+avg::File::FileWatcher::FileWatcher(char* path) :
 path(path) {
 
 }
 
-bool File::FileWatcher::check() {
+bool avg::File::FileWatcher::check() {
     struct stat result;
     if(stat(path, &result)==0) {
         if(result.st_mtime > lastCheck) {

@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-char** String::split(const char* str, const char splitter, uint32_t* splitCount) {
+char** avg::String::split(const char* str, const char splitter, uint32_t* splitCount) {
     uint32_t length = 0;
     for( ; str[length] != '\0'; length++) {
         if(str[length] == splitter && (str[length - 1] != splitter)) {
@@ -35,7 +35,7 @@ char** String::split(const char* str, const char splitter, uint32_t* splitCount)
     return splits;
 }
 
-char** String::split(char* str, const char* splitters, uint32_t splitterCount, uint32_t* splitCount) {
+char** avg::String::split(char* str, const char* splitters, uint32_t splitterCount, uint32_t* splitCount) {
     for(uint32_t i = 0; str[i] != '\0'; i++) {
         for(uint32_t x = 0; x < splitterCount; x++) {
             if(str[i] == splitters[x])
@@ -75,7 +75,7 @@ char** String::split(char* str, const char* splitters, uint32_t splitterCount, u
     return splits;
 }
 
-char* String::concat(const char* str1, const char* str2) {
+char* avg::String::concat(const char* str1, const char* str2) {
     uint32_t length1, length2;
     
     for(length1 = 0; str1[length1] != '\0'; length1++) {
@@ -83,7 +83,7 @@ char* String::concat(const char* str1, const char* str2) {
     }
 }
 
-bool String::equals(const char* str1, const char* str2) {
+bool avg::String::equals(const char* str1, const char* str2) {
     uint32_t i = 0;
 
     for(; str1[i] == str2[i]; i++) {
@@ -95,7 +95,7 @@ bool String::equals(const char* str1, const char* str2) {
     return false;
 }
 
-uint32_t String::length(char* str) {
+uint32_t avg::String::length(char* str) {
     uint32_t i = 0;
     for(; str[i] != '\0'; i++) { }
 
