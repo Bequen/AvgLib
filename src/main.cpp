@@ -2,14 +2,7 @@
 
 #include <iostream>
 
+// Only for testing purposes
 int main() {
-    avg::File::FileWatcher watcher = avg::File::FileWatcher("/home/martin/Projects/AvgLib/testFile.p");
-
-    while(true) {
-        if(watcher.check()) {
-            std::cout << "test" << std::endl;
-        }
-    }
-    
     return 0;
 }
