@@ -9,3 +9,7 @@ AvgLib, stands for average library, is simple C++ library with feathures like Pe
 - [ ] More noise functions!
 - [ ] Noise Fractals
 - [ ] Simple Content Pipeline
+
+## How to install
+Lol, just run ./install.sh with root :)
+Easy as that.
