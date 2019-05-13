@@ -5,5 +5,5 @@ test:
 	g++ $(INCLUDE) -o avgLib ./src/main.cpp -std=c++17 $(CPP_FILES)
 	./avgLib
 
-compile:
+lib_static:
 	g++ $(INCLUDE) -c -std=c++17 $(CPP_FILES) -fpic
