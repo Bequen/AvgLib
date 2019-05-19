@@ -5,7 +5,9 @@ ar rcs libavg.a *.o
 
 sudo rm -r /usr/include/avg
 sudo mkdir /usr/include/avg
-sudo mv libavg.a /usr/lib64/
+sudo cp libavg.a /usr/lib64/
+sudo cp libavg.a /usr/lib/
+rm libavg.a
 
 sudo cp ./lib/*.h /usr/include/avg
 for file in /usr/include/avg/*.h;
