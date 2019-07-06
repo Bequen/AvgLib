@@ -1,10 +1,11 @@
 #include "lib/String.h"
+#include "lib/Debug.h"
+
 
 #include <iostream>
+#include <termios.h>
 
 // Only for testing purposes
 int main() {
-    std::cout << avg::String::concat("ahoj", "ojf") << std::endl;
-
     return 0;
 }
