@@ -67,5 +67,13 @@ namespace avg {
          * @retval returns length of the char array
          */
         uint32_t length(char* str);
+
+        /**
+         * @brief  Gets length of the char array
+         * @note   
+         * @param  str: string which's length we want to get
+         * @retval returns length of the char array
+         */
+        uint32_t length(const char* str);
     };
 };

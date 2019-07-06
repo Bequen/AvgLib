@@ -76,21 +76,22 @@ char** avg::String::split(char* str, const char* splitters, uint32_t splitterCou
 }
 
 char* avg::String::concat(const char* str1, const char* str2) {
-    uint32_t length1, length2;
-    
-    for(length1 = 0; str1[length1] != '\0'; length1++) {
-        
-    }
+    uint32_t length1 = String::length(str1);
+    uint32_t length2 = String::length(str2);
+
+    char* result = new char[length1 + length2];
+    memcpy(result, str1, length1);
+    memcpy(result + length1, str2, length2);
+
+    return result;
 }
 
 bool avg::String::equals(const char* str1, const char* str2) {
     uint32_t i = 0;
 
-    for(; str1[i] == str2[i]; i++) {
-        if(str1[i] == '\0') {
+    for(; str1[i] == str2[i]; i++)
+        if(str1[i] == '\0')
             return true;
-        }
-    }
 
     return false;
 }
@@ -100,4 +101,31 @@ uint32_t avg::String::length(char* str) {
     for(; str[i] != '\0'; i++) { }
 
     return i;
+}
+
+uint32_t avg::String::length(const char* str) {
+    uint32_t i = 0;
+    for(; str[i] != '\0'; i++) { }
+
+    return i;
+}
+
+bool avg::String::startWith(const char* str, const char* start) {
+    for(uint32_t i = 0; ; i++) {
+        if(start[i] == '\0')
+            return true;
+        else if(str[i] != start[i])
+            return false;
+    }
+}
+
+bool avg::String::endWith(const char* str, const char* end) {
+    uint32_t length = avg::String::length(str);
+    uint32_t endLength = avg::String::length(end);
+    for(uint32_t i = 0; ; i++) {
+        if(end[i] == '\0')
+            return true;
+        else if(str[length - endLength + i] != end[i])
+            return false;
+    }
 }
