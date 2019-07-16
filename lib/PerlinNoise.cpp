@@ -5,11 +5,15 @@
 #include <cstring>
 #include <algorithm>
 #include <iostream>
+#include <ctime>
 #include <glm/gtx/norm.hpp>
 
 avg::PerlinNoise::PerlinNoise() : 
-seed(2016), gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]){
-    std::mt19937 generator(2016);
+gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]){
+    std::srand(time(NULL))
+    seed = std::rand();
+
+    std::mt19937 generator(seed);
     std::uniform_real_distribution distribution;
     auto dice = std::bind(distribution, generator);
     float gradientLen2;
