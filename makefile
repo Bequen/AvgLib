@@ -1,4 +1,4 @@
-CPP_FILES=./lib/*.cpp -L. -lavg
+CPP_FILES=./lib/*.cpp ./lib/Math/*.h -L. -lavg
 INCLUDE=-I./
 
 test:

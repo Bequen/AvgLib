@@ -1,6 +1,6 @@
 #pragma once
 
-#include <glm/glm.hpp>
+#include "Math/float3.h"
 #include <cstdint>
 
 namespace avg {
@@ -11,7 +11,7 @@ namespace avg {
             uint32_t sizeMask; // Mask, default value is @param:size - 1 
             uint32_t* permutationTable; // Simply permutation table
 
-            glm::vec3* gradients; // Actual table with gradients
+            avg::math::float3* gradients; // Actual table with gradients
 
             /**
              * @brief  Default constructor

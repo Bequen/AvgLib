@@ -6,11 +6,12 @@
 #include <algorithm>
 #include <iostream>
 #include <ctime>
-#include <glm/gtx/norm.hpp>
+
+#include "Math/vector.h"
 
 avg::PerlinNoise::PerlinNoise() : 
-gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]){
-    std::srand(time(NULL))
+gradients(new avg::math::float3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]) {
+    std::srand(time(NULL));
     seed = std::rand();
 
     std::mt19937 generator(seed);
@@ -19,10 +20,10 @@ gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new ui
     float gradientLen2;
     for (unsigned i = 0; i < size; ++i) {
         do {
-            gradients[i] = glm::vec3(2 * dice() - 1, 2 * dice() - 1, 2 * dice() - 1);
-            gradientLen2 = glm::length2(gradients[i]);
+            gradients[i] = avg::math::float3(2 * dice() - 1, 2 * dice() - 1, 2 * dice() - 1);
+            gradientLen2 = avg::vector::length2(gradients[i]);
         } while (gradientLen2 > 1);
-        gradients[i] = glm::normalize(gradients[i]); // normalize gradient
+        gradients[i] = avg::vector::normalize(gradients[i]); // normalize gradient
         permutationTable[i] = i;
     }
 
@@ -37,18 +38,18 @@ gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new ui
     }
 }
 
-PerlinNoise::PerlinNoise(uint32_t seed) :
-seed(seed), gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]) {
+avg::PerlinNoise::PerlinNoise(uint32_t seed) :
+seed(seed), gradients(new avg::math::float3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]) {
     std::mt19937 generator(seed);
     std::uniform_real_distribution distribution;
     auto dice = std::bind(distribution, generator);
     float gradientLen2;
     for (unsigned i = 0; i < size; ++i) {
         do {
-            gradients[i] = glm::vec3(2 * dice() - 1, 2 * dice() - 1, 2 * dice() - 1);
-            gradientLen2 = glm::length2(gradients[i]);
+            gradients[i] = avg::math::float3(2 * dice() - 1, 2 * dice() - 1, 2 * dice() - 1);
+            gradientLen2 = avg::vector::length2(gradients[i]);
         } while (gradientLen2 > 1);
-        gradients[i] = glm::normalize(gradients[i]); // normalize gradient
+        gradients[i] = avg::vector::normalize(gradients[i]); // normalize gradient
         permutationTable[i] = i;
     }
 
@@ -94,36 +95,36 @@ float avg::PerlinNoise::eval(float x, float y, float z) {
         float w = smoothstep(tz); 
  
         // gradients at the corner of the cell
-        const glm::vec3 &c000 = gradients[hash(xi0, yi0, zi0)]; 
-        const glm::vec3 &c100 = gradients[hash(xi1, yi0, zi0)]; 
-        const glm::vec3 &c010 = gradients[hash(xi0, yi1, zi0)]; 
-        const glm::vec3 &c110 = gradients[hash(xi1, yi1, zi0)]; 
+        const avg::math::float3 &c000 = gradients[hash(xi0, yi0, zi0)]; 
+        const avg::math::float3 &c100 = gradients[hash(xi1, yi0, zi0)]; 
+        const avg::math::float3 &c010 = gradients[hash(xi0, yi1, zi0)]; 
+        const avg::math::float3 &c110 = gradients[hash(xi1, yi1, zi0)]; 
  
-        const glm::vec3 &c001 = gradients[hash(xi0, yi0, zi1)]; 
-        const glm::vec3 &c101 = gradients[hash(xi1, yi0, zi1)]; 
-        const glm::vec3 &c011 = gradients[hash(xi0, yi1, zi1)]; 
-        const glm::vec3 &c111 = gradients[hash(xi1, yi1, zi1)]; 
+        const avg::math::float3 &c001 = gradients[hash(xi0, yi0, zi1)]; 
+        const avg::math::float3 &c101 = gradients[hash(xi1, yi0, zi1)]; 
+        const avg::math::float3 &c011 = gradients[hash(xi0, yi1, zi1)]; 
+        const avg::math::float3 &c111 = gradients[hash(xi1, yi1, zi1)]; 
  
         // generate vectors going from the grid points to p
         float x0 = tx, x1 = tx - 1; 
         float y0 = ty, y1 = ty - 1; 
         float z0 = tz, z1 = tz - 1; 
  
-        glm::vec3 p000 = glm::vec3(x0, y0, z0); 
-        glm::vec3 p100 = glm::vec3(x1, y0, z0); 
-        glm::vec3 p010 = glm::vec3(x0, y1, z0); 
-        glm::vec3 p110 = glm::vec3(x1, y1, z0); 
+        avg::math::float3 p000 = avg::math::float3(x0, y0, z0); 
+        avg::math::float3 p100 = avg::math::float3(x1, y0, z0); 
+        avg::math::float3 p010 = avg::math::float3(x0, y1, z0); 
+        avg::math::float3 p110 = avg::math::float3(x1, y1, z0); 
  
-        glm::vec3 p001 = glm::vec3(x0, y0, z1); 
-        glm::vec3 p101 = glm::vec3(x1, y0, z1); 
-        glm::vec3 p011 = glm::vec3(x0, y1, z1); 
-        glm::vec3 p111 = glm::vec3(x1, y1, z1); 
+        avg::math::float3 p001 = avg::math::float3(x0, y0, z1); 
+        avg::math::float3 p101 = avg::math::float3(x1, y0, z1); 
+        avg::math::float3 p011 = avg::math::float3(x0, y1, z1); 
+        avg::math::float3 p111 = avg::math::float3(x1, y1, z1); 
  
         // linear interpolation
-        float a = lerp(dot(c000, p000), dot(c100, p100), u); 
-        float b = lerp(dot(c010, p010), dot(c110, p110), u); 
-        float c = lerp(dot(c001, p001), dot(c101, p101), u); 
-        float d = lerp(dot(c011, p011), dot(c111, p111), u); 
+        float a = lerp(avg::vector::dot(c000, p000), avg::vector::dot(c100, p100), u); 
+        float b = lerp(avg::vector::dot(c010, p010), avg::vector::dot(c110, p110), u); 
+        float c = lerp(avg::vector::dot(c001, p001), avg::vector::dot(c101, p101), u); 
+        float d = lerp(avg::vector::dot(c011, p011), avg::vector::dot(c111, p111), u); 
  
         float e = lerp(a, b, v); 
         float f = lerp(c, d, v); 
