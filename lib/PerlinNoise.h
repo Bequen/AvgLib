@@ -20,6 +20,14 @@ namespace avg {
             PerlinNoise();
 
             /**
+             * @brief  Constructor that allows specific seed
+             * @note   
+             * @param  seed: Seed that will be used for generator
+             * @retval 
+             */
+            PerlinNoise(uint32_t seed);
+
+            /**
              * @brief  Evaluate noise at specific position
              * @note   3 dimensional
              * @param  x: X Component of the position

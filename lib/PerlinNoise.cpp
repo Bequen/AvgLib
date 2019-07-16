@@ -33,6 +33,32 @@ seed(2016), gradients(new glm::vec3[256]), size(256), sizeMask(255), permutation
     }
 }
 
+PerlinNoise::PerlinNoise(uint32_t seed) :
+seed(seed), gradients(new glm::vec3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]) {
+    std::mt19937 generator(seed);
+    std::uniform_real_distribution distribution;
+    auto dice = std::bind(distribution, generator);
+    float gradientLen2;
+    for (unsigned i = 0; i < size; ++i) {
+        do {
+            gradients[i] = glm::vec3(2 * dice() - 1, 2 * dice() - 1, 2 * dice() - 1);
+            gradientLen2 = glm::length2(gradients[i]);
+        } while (gradientLen2 > 1);
+        gradients[i] = glm::normalize(gradients[i]); // normalize gradient
+        permutationTable[i] = i;
+    }
+
+    std::uniform_int_distribution distributionInt;
+    auto diceInt = std::bind(distributionInt, generator);
+    // create permutation table
+    for (unsigned i = 0; i < size; ++i)
+        std::swap(permutationTable[i], permutationTable[diceInt() & sizeMask]);
+    // extend the permutation table in the index range [256:512]
+    for (unsigned i = 0; i < size; ++i) {
+        permutationTable[size + i] = permutationTable[i];
+    }
+}
+
 int32_t avg::PerlinNoise::hash(int32_t x, int32_t y, int32_t z) {
     return permutationTable[permutationTable[permutationTable[x] + y] + z];
 }
