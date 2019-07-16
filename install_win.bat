@@ -1,3 +1,4 @@
+@echo off
 mingw32-make lib_static
 
 move *.o  C:/MinGW/lib/
