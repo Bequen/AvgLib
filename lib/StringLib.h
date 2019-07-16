@@ -4,7 +4,7 @@
 #include <cstdint>
 
 namespace avg {
-    namespace String {
+    namespace StringLib {
         /**
          * @brief  Splits string into multiple strings
          * @note   Copies the string, so the original will not be hurt

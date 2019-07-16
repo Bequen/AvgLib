@@ -1,8 +1,9 @@
-#include "String.h"
+#include "StringLib.h"
 
 #include <iostream>
 
-char** avg::String::split(const char* str, const char splitter, uint32_t* splitCount) {
+
+char** avg::StringLib::split(const char* str, const char splitter, uint32_t* splitCount) {
     uint32_t length = 0;
     for( ; str[length] != '\0'; length++) {
         if(str[length] == splitter && (str[length - 1] != splitter)) {
@@ -35,7 +36,7 @@ char** avg::String::split(const char* str, const char splitter, uint32_t* splitC
     return splits;
 }
 
-char** avg::String::split(char* str, const char* splitters, uint32_t splitterCount, uint32_t* splitCount) {
+char** avg::StringLib::split(char* str, const char* splitters, uint32_t splitterCount, uint32_t* splitCount) {
     for(uint32_t i = 0; str[i] != '\0'; i++) {
         for(uint32_t x = 0; x < splitterCount; x++) {
             if(str[i] == splitters[x])
@@ -75,9 +76,9 @@ char** avg::String::split(char* str, const char* splitters, uint32_t splitterCou
     return splits;
 }
 
-char* avg::String::concat(const char* str1, const char* str2) {
-    uint32_t length1 = String::length(str1);
-    uint32_t length2 = String::length(str2);
+char* avg::StringLib::concat(const char* str1, const char* str2) {
+    uint32_t length1 = StringLib::length(str1);
+    uint32_t length2 = StringLib::length(str2);
 
     char* result = new char[length1 + length2];
     memcpy(result, str1, length1);
@@ -86,7 +87,7 @@ char* avg::String::concat(const char* str1, const char* str2) {
     return result;
 }
 
-bool avg::String::equals(const char* str1, const char* str2) {
+bool avg::StringLib::equals(const char* str1, const char* str2) {
     uint32_t i = 0;
 
     for(; str1[i] == str2[i]; i++)
@@ -96,21 +97,21 @@ bool avg::String::equals(const char* str1, const char* str2) {
     return false;
 }
 
-uint32_t avg::String::length(char* str) {
+uint32_t avg::StringLib::length(char* str) {
     uint32_t i = 0;
     for(; str[i] != '\0'; i++) { }
 
     return i;
 }
 
-uint32_t avg::String::length(const char* str) {
+uint32_t avg::StringLib::length(const char* str) {
     uint32_t i = 0;
     for(; str[i] != '\0'; i++) { }
 
     return i;
 }
 
-bool avg::String::startWith(const char* str, const char* start) {
+bool avg::StringLib::startWith(const char* str, const char* start) {
     for(uint32_t i = 0; ; i++) {
         if(start[i] == '\0')
             return true;
@@ -119,9 +120,9 @@ bool avg::String::startWith(const char* str, const char* start) {
     }
 }
 
-bool avg::String::endWith(const char* str, const char* end) {
-    uint32_t length = avg::String::length(str);
-    uint32_t endLength = avg::String::length(end);
+bool avg::StringLib::endWith(const char* str, const char* end) {
+    uint32_t length = avg::StringLib::length(str);
+    uint32_t endLength = avg::StringLib::length(end);
     for(uint32_t i = 0; ; i++) {
         if(end[i] == '\0')
             return true;
