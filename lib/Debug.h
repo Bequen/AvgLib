@@ -26,3 +26,12 @@
 
 #define CURSOR_SHOW         "\033[25h"
 #define CURSOR_HIDE         "\033[25l"
+
+/**
+ * @brief  There might be some things to get ready
+ * @note   It allows default window's console to display colors
+ * @retval None
+ */
+inline void debug_init() {
+
+}
