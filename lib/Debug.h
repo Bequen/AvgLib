@@ -1,5 +1,9 @@
 #pragma once
 
+#include <stdio.h>
+#include <wchar.h>
+#include <windows.h>
+
 #define FOREGROUND_BLACK    "\033[1;30"
 #define FOREGROUND_RED      "\033[1;31"
 #define FOREGROUND_GREEN    "\033[1;32"
@@ -33,5 +37,16 @@
  * @retval None
  */
 inline void debug_init() {
+    #if __MINGW32__
+    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+    if (hOut == INVALID_HANDLE_VALUE)
+        std::cout << "Couldn't initialize Debug Interface. Invalid output handle!" << std::endl;
+    DWORD dwMode = 0;
+    if (!GetConsoleMode(hOut, &dwMode))
+        std::cout << "Unable to get console mode" << std::endl;
 
+    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+    if (!SetConsoleMode(hOut, dwMode))
+        std::cout << "Unable to set console mode" << std::endl;
+    #endif
 }
