@@ -8,23 +8,26 @@
 
 #include <iostream>
 
-#define FOREGROUND_BLACK    "\033[1;30"
-#define FOREGROUND_RED      "\033[1;31"
-#define FOREGROUND_GREEN    "\033[1;32"
-#define FOREGROUND_YELLOW   "\033[1;33"
-#define FOREGROUND_BLUE     "\033[1;34"
-#define FOREGROUND_MAGENTA  "\033[1;35"
-#define FOREGROUND_CYAN     "\033[1;36"
-#define FOREGROUND_WHITE    "\033[1;37"
+#define FOREGROUND_BLACK    "\033[0;30m"
+#define FOREGROUND_RED      "\033[0;31m"
+#define FOREGROUND_GREEN    "\033[0;32m"
+#define FOREGROUND_YELLOW   "\033[0;33m"
+#define FOREGROUND_BLUE     "\033[0;34m"
+#define FOREGROUND_MAGENTA  "\033[0;35m"
+#define FOREGROUND_CYAN     "\033[0;36m"
+#define FOREGROUND_WHITE    "\033[0;37m"
 
-#define BACKGROUND_BLACK    "\033[1;40"
-#define BACKGROUND_RED      "\033[1;41"
-#define BACKGROUND_GREEN    "\033[1;42"
-#define BACKGROUND_YELLOW   "\033[1;43"
-#define BACKGROUND_BLUE     "\033[1;44"
-#define BACKGROUND_MAGENTA  "\033[1;45"
-#define BACKGROUND_CYAN     "\033[1;46"
-#define BACKGROUND_WHITE    "\033[1;47"
+#define BACKGROUND_BLACK    "\033[0;40m"
+#define BACKGROUND_RED      "\033[0;41m"
+#define BACKGROUND_GREEN    "\033[0;42m"
+#define BACKGROUND_YELLOW   "\033[0;43m"
+#define BACKGROUND_BLUE     "\033[0;44m"
+#define BACKGROUND_MAGENTA  "\033[0;45m"
+#define BACKGROUND_CYAN     "\033[0;46m"
+#define BACKGROUND_WHITE    "\033[0;47m"
+
+#define BOLD                "\033[1m"
+#define RESET               "\033[0"
 
 #define CURSOR_UP(n)        "\033[" << n << "A"
 #define CURSOR_DOWN(n)      "\033[" << n << "B"
@@ -34,6 +37,11 @@
 
 #define CURSOR_SHOW         "\033[25h"
 #define CURSOR_HIDE         "\033[25l"
+
+#define ERROR(message) std::cout << FOREGROUND_RED << BOLD << "[ERROR]: " << RESET << FOREGROUND_RED << message << FOREGROUND_WHITE << std::endl;
+#define WARNING(message) std::cout << FOREGROUND_YELLOW << BOLD << "[WARNING]: " << RESET << FOREGROUND_YELLOW << message << FOREGROUND_WHITE << std::endl;
+#define MESSAGE(message) std::cout << FOREGROUND_BLUE << BOLD << "[MESSAGE]: " << RESET << FOREGROUND_BLUE << message << FOREGROUND_WHITE << std::endl;
+#define SUCCESS(message) std::cout << FOREGROUND_GREEN << BOLD << "[SUCCESS]: " << RESET << FOREGROUND_GREEN << message << FOREGROUND_WHITE << std::endl;
 
 /**
  * @brief  There might be some things to get ready

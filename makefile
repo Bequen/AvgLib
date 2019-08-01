@@ -2,7 +2,7 @@ CPP_FILES=./lib/*.cpp ./lib/Math/*.cpp -L. -lavg
 INCLUDE=-I./
 
 test:
-	g++ $(INCLUDE) -o avgLib ./src/main.cpp -std=c++17 $(CPP_FILES)
+	g++ $(INCLUDE) -o avgLib ./main.cpp  -std=c++17 $(CPP_FILES)
 	./avgLib
 
 lib_static:
