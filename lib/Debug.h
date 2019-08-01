@@ -1,8 +1,10 @@
 #pragma once
 
+#if __MINGW32__
 #include <stdio.h>
 #include <wchar.h>
 #include <windows.h>
+#endif
 
 #define FOREGROUND_BLACK    "\033[1;30"
 #define FOREGROUND_RED      "\033[1;31"
