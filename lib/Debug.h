@@ -6,6 +6,8 @@
 #include <windows.h>
 #endif
 
+#include <iostream>
+
 #define FOREGROUND_BLACK    "\033[1;30"
 #define FOREGROUND_RED      "\033[1;31"
 #define FOREGROUND_GREEN    "\033[1;32"
