@@ -1,9 +1,9 @@
 #pragma once
 
 #if __MINGW32__
-#include <stdio.h>
-#include <wchar.h>
-#include <windows.h>
+    #include <stdio.h>
+    #include <wchar.h>
+    #include <windows.h>
 #endif
 
 #include <iostream>
