@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# Requests super user permissions if they are not already available
+if [ $EUID != 0 ]; then
+    echo In order to install the library correctly, we need super user permission
+    sudo "$0" "$@"
+    exit $?
+fi
+
 make lib_static
 ar rcs libavg.a *.o
 

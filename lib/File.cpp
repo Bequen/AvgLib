@@ -1,6 +1,7 @@
 #include "File.h"
 
 #include <unistd.h>
+#include <sys/sysinfo.h>
 
 avg::FileWatcher::FileWatcher(char* path) :
 path(path) {

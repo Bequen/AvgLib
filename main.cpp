@@ -4,11 +4,9 @@
 
 #include <cstring>
 #include <iostream>
+#include <fstream>
 
 // Only for testing purposes
 int main() {
-
-    ERROR("Test");
-
     return 0;
 }
