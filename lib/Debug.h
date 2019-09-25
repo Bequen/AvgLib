@@ -28,6 +28,7 @@
 
 #define BOLD                "\033[1m"
 #define RESET               "\033[0"
+#define INVERT              "\033[7m"
 
 #define CURSOR_UP(n)        "\033[" << n << "A"
 #define CURSOR_DOWN(n)      "\033[" << n << "B"
@@ -38,10 +39,10 @@
 #define CURSOR_SHOW         "\033[25h"
 #define CURSOR_HIDE         "\033[25l"
 
-#define ERROR(message) std::cout << FOREGROUND_RED << BOLD << "[ERROR]: " << RESET << FOREGROUND_RED << message << FOREGROUND_WHITE << std::endl;
-#define WARNING(message) std::cout << FOREGROUND_YELLOW << BOLD << "[WARNING]: " << RESET << FOREGROUND_YELLOW << message << FOREGROUND_WHITE << std::endl;
-#define MESSAGE(message) std::cout << FOREGROUND_BLUE << BOLD << "[MESSAGE]: " << RESET << FOREGROUND_BLUE << message << FOREGROUND_WHITE << std::endl;
-#define SUCCESS(message) std::cout << FOREGROUND_GREEN << BOLD << "[SUCCESS]: " << RESET << FOREGROUND_GREEN << message << FOREGROUND_WHITE << std::endl;
+#define ERROR(message) std::cout << FOREGROUND_RED << BOLD << INVERT << "[ERROR]" << RESET << FOREGROUND_RED << ": " << message << FOREGROUND_WHITE << std::endl;
+#define WARNING(message) std::cout << FOREGROUND_YELLOW << BOLD << INVERT << "[WARNING]" << RESET << FOREGROUND_YELLOW << ": " << message << FOREGROUND_WHITE << std::endl;
+#define MESSAGE(message) std::cout << FOREGROUND_BLUE << BOLD << INVERT << "[MESSAGE]" << RESET << FOREGROUND_BLUE << ": " << message << FOREGROUND_WHITE << std::endl;
+#define SUCCESS(message) std::cout << FOREGROUND_GREEN << BOLD << INVERT << "[SUCCESS]" << RESET << FOREGROUND_GREEN << ": " << message << FOREGROUND_WHITE << std::endl;
 
 /**
  * @brief  There might be some things to get ready
@@ -62,3 +63,7 @@ inline void debug_init() {
         std::cout << "Unable to set console mode" << std::endl;
     #endif
 }
+
+class Debugger {
+    
+};
