@@ -8,6 +8,13 @@
 
 #include <iostream>
 
+#if __linux__
+    #include <sys/ioctl.h>
+    #include <unistd.h>
+#endif
+
+#include "ASCII.h"
+
 #define FOREGROUND_BLACK    "\033[0;30m"
 #define FOREGROUND_RED      "\033[0;31m"
 #define FOREGROUND_GREEN    "\033[0;32m"
@@ -29,6 +36,7 @@
 #define BOLD                "\033[1m"
 #define RESET               "\033[0"
 #define INVERT              "\033[7m"
+#define REINVERT              "\033[27m"
 
 #define CURSOR_UP(n)        "\033[" << n << "A"
 #define CURSOR_DOWN(n)      "\033[" << n << "B"
@@ -64,6 +72,98 @@ inline void debug_init() {
     #endif
 }
 
-class Debugger {
-    
+class TerminalWindow {
+    public:
+        char* name;
+
+        int32_t width, height;
+        int32_t padding;
+
+        TerminalWindow() :
+        width(0), height(0), padding(0), name(nullptr) {
+
+        }
+
+        TerminalWindow(char* name, int32_t width, int32_t height, int32_t padding) :
+        width(width), height(height), padding(padding) {
+            this->name = name;
+        }
+};
+
+class Terminal {
+    public:
+        int32_t requestDraw = 0;
+
+        TerminalWindow* windows;
+        uint32_t windowCount;
+
+        uint32_t width;
+        uint32_t height;
+
+        Terminal() {
+            std::locale::global (std::locale ("en_US.UTF-8"));
+
+            windows = new TerminalWindow[10];
+            windowCount = 0;
+            create_window(TerminalWindow("test", 35, 10, 1));
+        }
+
+        void draw() {
+            terminal_size_changed();
+
+            if(requestDraw) {
+                for(uint32_t i = 0; i < windowCount; i++) {
+                    draw_window(windows[i]);
+                }
+                requestDraw = 0;
+            }
+        }
+
+        void terminal_size_changed() {
+            struct winsize w;
+            ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+            
+            if(w.ws_row != height || w.ws_col != width) {
+                on_terminal_size_change();
+            }
+        }
+
+        void on_terminal_size_change() {
+
+        }
+
+        void create_window(TerminalWindow window) {
+            windows[windowCount++] = window;
+            requestDraw = 1;
+        }
+
+        void draw_window(TerminalWindow window) {
+            std::wcout << LEFT_TOP;
+            int32_t passed = 0;
+
+            for(uint32_t x = 0; x < window.width; x++) {
+                if(passed)
+                    std::wcout << ROOF;
+                else {
+                    if(window.name[x] == '\0') {
+                        passed = 1;
+                        std::wcout << ROOF;
+                        continue;
+                    }
+                    std::wcout << INVERT << window.name[x] << REINVERT;
+                }
+            } std::wcout << RIGHT_TOP << "\n";
+
+            for(uint32_t y = 0; y < window.height; y++) {
+                std::wcout << WALL;
+                for(uint32_t x = 0; x < window.width; x++)
+                    std::wcout << " ";
+                std::wcout << WALL << "\n";
+            } 
+            
+            std::wcout << LEFT_BOTTOM;
+            for(uint32_t x = 0; x < window.width; x++) {
+                std::wcout << ROOF;
+            } std::wcout << RIGHT_BOTTOM << std::endl;
+        }
 };

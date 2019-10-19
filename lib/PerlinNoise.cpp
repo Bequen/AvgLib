@@ -7,11 +7,10 @@
 #include <iostream>
 #include <ctime>
 
-#include "Math/vector.h"
+#include "Math/Math.h"
 
-avg::PerlinNoise::PerlinNoise() : 
-gradients(new avg::math::float3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]) {
-    std::srand(time(NULL));
+avg::PerlinNoise::PerlinNoise(PermutationTable permutationTable) : 
+size(256), sizeMask(255), gradients(new avg::math::float3[size]), permutationTable(permutationTable) {
     seed = std::rand();
 
     std::mt19937 generator(seed);
@@ -24,22 +23,11 @@ gradients(new avg::math::float3[256]), size(256), sizeMask(255), permutationTabl
             gradientLen2 = avg::vector::length2(gradients[i]);
         } while (gradientLen2 > 1);
         gradients[i] = avg::vector::normalize(gradients[i]); // normalize gradient
-        permutationTable[i] = i;
-    }
-
-    std::uniform_int_distribution distributionInt;
-    auto diceInt = std::bind(distributionInt, generator);
-    // create permutation table
-    for (unsigned i = 0; i < size; ++i)
-        std::swap(permutationTable[i], permutationTable[diceInt() & sizeMask]);
-    // extend the permutation table in the index range [256:512]
-    for (unsigned i = 0; i < size; ++i) {
-        permutationTable[size + i] = permutationTable[i];
     }
 }
 
-avg::PerlinNoise::PerlinNoise(uint32_t seed) :
-seed(seed), gradients(new avg::math::float3[256]), size(256), sizeMask(255), permutationTable(new uint32_t[256 * 3]) {
+avg::PerlinNoise::PerlinNoise(PermutationTable permutationTable, uint32_t seed) :
+seed(seed), gradients(new avg::math::float3[256]), size(256), sizeMask(255), permutationTable(permutationTable) {
     std::mt19937 generator(seed);
     std::uniform_real_distribution distribution;
     auto dice = std::bind(distribution, generator);
@@ -50,10 +38,9 @@ seed(seed), gradients(new avg::math::float3[256]), size(256), sizeMask(255), per
             gradientLen2 = avg::vector::length2(gradients[i]);
         } while (gradientLen2 > 1);
         gradients[i] = avg::vector::normalize(gradients[i]); // normalize gradient
-        permutationTable[i] = i;
     }
 
-    std::uniform_int_distribution distributionInt;
+    /* std::uniform_int_distribution distributionInt;
     auto diceInt = std::bind(distributionInt, generator);
     // create permutation table
     for (unsigned i = 0; i < size; ++i)
@@ -61,7 +48,7 @@ seed(seed), gradients(new avg::math::float3[256]), size(256), sizeMask(255), per
     // extend the permutation table in the index range [256:512]
     for (unsigned i = 0; i < size; ++i) {
         permutationTable[size + i] = permutationTable[i];
-    }
+    } */
 }
 
 int32_t avg::PerlinNoise::hash(int32_t x, int32_t y, int32_t z) {

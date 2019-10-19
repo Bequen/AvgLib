@@ -2,14 +2,17 @@
 
 #include "Math/float3.h"
 #include <cstdint>
+#include "PermutationTable.h"
 
 namespace avg {
     class PerlinNoise {
         public:
             uint32_t seed; // Used seed, useful to create same map
+
             uint32_t size; // Size of the map, default value is 256
             uint32_t sizeMask; // Mask, default value is @param:size - 1 
-            uint32_t* permutationTable; // Simply permutation table
+
+            PermutationTable permutationTable;
 
             avg::math::float3* gradients; // Actual table with gradients
 
@@ -17,7 +20,7 @@ namespace avg {
              * @brief  Default constructor
              * @note   Gives all the values their default state
              */
-            PerlinNoise();
+            PerlinNoise(PermutationTable permutationTable);
 
             /**
              * @brief  Constructor that allows specific seed
@@ -25,7 +28,7 @@ namespace avg {
              * @param  seed: Seed that will be used for generator
              * @retval 
              */
-            PerlinNoise(uint32_t seed);
+            PerlinNoise(PermutationTable permutationTable, uint32_t seed);
 
             /**
              * @brief  Evaluate noise at specific position
