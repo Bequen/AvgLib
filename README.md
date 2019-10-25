@@ -7,15 +7,9 @@ AvgLib, stands for average library, is simple C++ library with feathures like Pe
 - [x] String management interface
 - [x] File Watcher
 - [x] Simple Content Pipeline
-- [ ] More noise functions!
+- [x] More noise functions!
 - [ ] Noise Fractals
 
-## How to install
+## How to Use?
 
-### Linux
-
-Run install script, it will do everything needed.
-
-### Windows
-
-On Windows you are going to need MinGW installed on C: partition in order to use install_win.bat script.
+This is a CMake library, this means you need to download the source code and put it to your project files. It is designed that way. Source files already contains CMakeLists.txt to compile successfully, so then, add `add_subdirectory("dirToThisLib")` to your main CMakeLists.txt.
