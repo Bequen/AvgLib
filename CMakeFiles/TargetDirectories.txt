@@ -1,3 +1,0 @@
-/home/martin/Projects/AvgLib/CMakeFiles/rebuild_cache.dir
-/home/martin/Projects/AvgLib/CMakeFiles/AvgLib.dir
-/home/martin/Projects/AvgLib/CMakeFiles/edit_cache.dir

@@ -1,2 +1,0 @@
-/usr/bin/ar qc libAvgLib.a  CMakeFiles/AvgLib.dir/lib/File.cpp.o CMakeFiles/AvgLib.dir/lib/Math/vector.cpp.o CMakeFiles/AvgLib.dir/lib/Random/PerlinNoise.cpp.o CMakeFiles/AvgLib.dir/lib/Random/PermutationTable.cpp.o CMakeFiles/AvgLib.dir/lib/Random/VoronoiNoise.cpp.o CMakeFiles/AvgLib.dir/lib/StringLib.cpp.o
-/usr/bin/ranlib libAvgLib.a

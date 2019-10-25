@@ -3,3 +3,6 @@ avgLib
 avgLib.exe
 libAvgLib.a
 Makefile
+CMakeCache.txt
+cmake_install.cmake
+CMakeFiles/
