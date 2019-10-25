@@ -18,4 +18,8 @@ namespace avg::vector {
     inline avg::math::float2 normalize(avg::math::float2 vector);
     inline avg::math::float3 normalize(avg::math::float3 vector);
     inline avg::math::float4 normalize(avg::math::float4 vector);
+
+    inline float distance(avg::math::float2 a, avg::math::float2 b);
+    inline float distance(avg::math::float3 a, avg::math::float3 b);
+    inline float distance(avg::math::float4 a, avg::math::float4 b);
 }

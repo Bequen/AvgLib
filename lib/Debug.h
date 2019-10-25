@@ -165,5 +165,8 @@ class Terminal {
             for(uint32_t x = 0; x < window.width; x++) {
                 std::wcout << ROOF;
             } std::wcout << RIGHT_BOTTOM << std::endl;
+
+            std::wcout << CURSOR_UP(window.height + 1 - window.padding) << CURSOR_FORWARD(1 + window.padding) << "pepik";
+            std::flush(std::wcout);
         }
 };
