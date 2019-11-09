@@ -72,6 +72,9 @@ inline void debug_init() {
     #endif
 }
 
+#define FLOW_HORIZONTAL 0x0000
+#define FLOW_VERTICAL 0x0001
+
 class TerminalWindow {
     public:
         char* name;
@@ -79,14 +82,26 @@ class TerminalWindow {
         int32_t width, height;
         int32_t padding;
 
+        TerminalWindow* children;
+        uint32_t childCount;
+
+        uint32_t flow;
+
         TerminalWindow() :
-        width(0), height(0), padding(0), name(nullptr) {
+        width(0), height(0), padding(0), name(nullptr), children(nullptr), childCount(0) {
 
         }
 
         TerminalWindow(char* name, int32_t width, int32_t height, int32_t padding) :
-        width(width), height(height), padding(padding) {
-            this->name = name;
+        width(width), height(height), padding(padding), name(name), children(nullptr), childCount(0) {
+            
+        }
+
+
+
+        void set_size(uint32_t width, uint32_t height) {
+            this->width = width;
+            this->height = height;
         }
 };
 
@@ -94,28 +109,33 @@ class Terminal {
     public:
         int32_t requestDraw = 0;
 
-        TerminalWindow* windows;
-        uint32_t windowCount;
+        TerminalWindow frame;
 
         uint32_t width;
         uint32_t height;
 
+        wchar_t* buffer;
+
         Terminal() {
             std::locale::global (std::locale ("en_US.UTF-8"));
+            terminal_size_changed();
+            frame.padding = 1;
 
-            windows = new TerminalWindow[10];
-            windowCount = 0;
-            create_window(TerminalWindow("test", 35, 10, 1));
+            frame.children = new TerminalWindow[5];
+            frame.childCount = 0;
+            frame.children[frame.childCount++] = TerminalWindow(nullptr, 10, 10, 1);
+            frame.children[frame.childCount++] = TerminalWindow(nullptr, 30, 10, 1);
         }
 
         void draw() {
             terminal_size_changed();
 
             if(requestDraw) {
-                for(uint32_t i = 0; i < windowCount; i++) {
-                    draw_window(windows[i]);
-                }
+                draw_window(frame, buffer, 0, 0);
                 requestDraw = 0;
+
+                std::wcout << buffer;
+                std::flush(std::wcout);
             }
         }
 
@@ -123,29 +143,32 @@ class Terminal {
             struct winsize w;
             ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
             
-            if(w.ws_row != height || w.ws_col != width) {
-                on_terminal_size_change();
+            if(w.ws_row != frame.height || w.ws_col != frame.width) {
+                on_terminal_size_change(w.ws_col, w.ws_row);
+                requestDraw = true;
             }
         }
 
-        void on_terminal_size_change() {
-
+        void on_terminal_size_change(uint32_t width, uint32_t height) {
+            this->frame.set_size(width, height);
+            delete [] buffer;
+            buffer = new wchar_t[width * height];
         }
 
-        void create_window(TerminalWindow window) {
-            windows[windowCount++] = window;
+        void create_window(TerminalWindow* parent, TerminalWindow window) {
+            parent->children[parent->childCount++] = window;
             requestDraw = 1;
         }
 
-        void draw_window(TerminalWindow window) {
-            std::wcout << LEFT_TOP;
+        void draw_window(TerminalWindow window, wchar_t* buffer, uint32_t offsetX, uint32_t offsetY) {
+            /* std::wcout << LEFT_TOP;
             int32_t passed = 0;
 
-            for(uint32_t x = 0; x < window.width; x++) {
+            for(uint32_t x = 0; x < window.width - 2; x++) {
                 if(passed)
                     std::wcout << ROOF;
                 else {
-                    if(window.name[x] == '\0') {
+                    if(!window.name || window.name[x] == '\0') {
                         passed = 1;
                         std::wcout << ROOF;
                         continue;
@@ -154,19 +177,62 @@ class Terminal {
                 }
             } std::wcout << RIGHT_TOP << "\n";
 
-            for(uint32_t y = 0; y < window.height; y++) {
+            for(uint32_t y = 0; y < window.height - 2; y++) {
                 std::wcout << WALL;
-                for(uint32_t x = 0; x < window.width; x++)
+                for(uint32_t x = 0; x < window.width - 2; x++)
                     std::wcout << " ";
                 std::wcout << WALL << "\n";
             } 
             
             std::wcout << LEFT_BOTTOM;
-            for(uint32_t x = 0; x < window.width; x++) {
+            for(uint32_t x = 0; x < window.width - 2; x++) {
                 std::wcout << ROOF;
-            } std::wcout << RIGHT_BOTTOM << std::endl;
+            } std::wcout << RIGHT_BOTTOM;
 
-            std::wcout << CURSOR_UP(window.height + 1 - window.padding) << CURSOR_FORWARD(1 + window.padding) << "pepik";
-            std::flush(std::wcout);
+            std::wcout << "\r" << CURSOR_UP(window.height - 2 - window.padding) << CURSOR_FORWARD(1 + window.padding * 2) << "pepik";
+            std::flush(std::wcout); */
+
+            uint32_t oX = offsetX;
+            uint32_t oY = offsetY;
+
+            buffer[offsetX + frame.width * offsetY] = LEFT_TOP;
+            int32_t passed = 0;
+
+            for(uint32_t x = 0; x < window.width - 2; x++) {
+                if(passed)
+                    buffer[++offsetX + frame.width * offsetY] = ROOF;
+                else {
+                    if(!window.name || window.name[x] == '\0') {
+                        passed = 1;
+                        buffer[++offsetX + frame.width * offsetY] = ROOF;
+                        continue;
+                    }
+                    buffer[++offsetX + frame.width * offsetY] = window.name[x];
+                }
+            } 
+            buffer[++offsetX + frame.width * offsetY] = RIGHT_TOP;
+
+            
+            for(uint32_t y = 0; y < window.height - 2; y++) {
+                offsetX = oX;
+                buffer[offsetX + frame.width * ++offsetY] = WALL;
+                for(uint32_t x = 0; x < window.width - 2; x++)
+                    buffer[++offsetX + frame.width * offsetY] = (wchar_t)' ';
+                buffer[++offsetX + frame.width * offsetY] = WALL;
+            } offsetX = oX;
+            
+            buffer[offsetX + frame.width * offsetY] = LEFT_BOTTOM;
+            for(uint32_t x = 0; x < window.width - 2; x++) {
+                buffer[++offsetX + frame.width * offsetY] = ROOF;
+            } buffer[++offsetX + frame.width * offsetY] = RIGHT_BOTTOM;
+
+            for(uint32_t i = 0; i < window.childCount; i++) {
+                
+                draw_window(window.children[i], buffer, oX, oY);
+                
+                if(window.flow == FLOW_HORIZONTAL) {
+                    oX += window.children[i].width - 1;
+                }
+            }
         }
 };

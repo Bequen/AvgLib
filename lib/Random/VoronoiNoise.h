@@ -10,7 +10,5 @@ class VoronoiNoise {
         unsigned permutationTable[256 * 2];
 
         void init(uint32_t seed, uint32_t size);
-
-        avg::math::float2 normalize(avg::math::float2 vec);
         float eval(avg::math::float2 position);
 };

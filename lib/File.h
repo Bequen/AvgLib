@@ -3,6 +3,13 @@
 #include <cstdint>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include "StringLib.h"
+
+#if __WIN32__ || __MINGW32__
+    #define DIRECTORY_SEPARATOR '\\'
+#elif __linux__
+    #define DIRECTORY_SEPARATOR '/'
+#endif
 
 namespace avg
 {
@@ -11,6 +18,43 @@ namespace avg
      */
     namespace File
     {
+        #if __linux__
+        inline char* get_home_dir() {
+
+        }
+        #endif
+
+        #if __MINGW32__ || __WIN32__
+        inline char* get_appdata_dir() {
+            return getenv("APPDATA");
+        }
+        #endif
+
+        namespace Dir {
+            char* go_back_cpy(char* path) {
+                char* result = new char[StringLib::length(path)];
+                
+                for(uint32_t i = StringLib::length(path); i >= 0; i--) {
+                    if(path[i] == DIRECTORY_SEPARATOR) {
+                        memcpy(result, path, i);
+                        result[i] = '\0';
+
+                        break;
+                    }
+                }
+
+                return result;
+            }
+
+            void go_back(char* path) {
+                for(uint32_t i = StringLib::length(path); i >= 0; i--) {
+                    if(path[i] == DIRECTORY_SEPARATOR) {
+                        path[i] = '\0';
+                        break;
+                    }
+                }
+            }
+        };
     };
 
     /**

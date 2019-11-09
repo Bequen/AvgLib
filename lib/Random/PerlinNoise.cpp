@@ -8,6 +8,7 @@
 #include <ctime>
 
 #include "Math/Math.h"
+#include "Math/vector.h"
 
 avg::PerlinNoise::PerlinNoise(PermutationTable permutationTable) : 
 size(256), sizeMask(255), gradients(new avg::math::float3[size]), permutationTable(permutationTable) {

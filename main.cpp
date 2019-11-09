@@ -10,9 +10,7 @@
 int main() {
     Terminal terminal = Terminal();
 
-    while(true) {
-        terminal.draw();
-    }
+    terminal.draw();
 
     return 0;
 }
