@@ -34,9 +34,9 @@
 #define BACKGROUND_WHITE    "\033[0;47m"
 
 #define BOLD                "\033[1m"
-#define RESET               "\033[0"
+#define RESET               "\033[0m"
 #define INVERT              "\033[7m"
-#define REINVERT              "\033[27m"
+#define REINVERT            "\033[27m"
 
 #define CURSOR_UP(n)        "\033[" << n << "A"
 #define CURSOR_DOWN(n)      "\033[" << n << "B"
@@ -47,7 +47,7 @@
 #define CURSOR_SHOW         "\033[25h"
 #define CURSOR_HIDE         "\033[25l"
 
-#define ERROR(message) std::cout << FOREGROUND_RED << BOLD << INVERT << "[ERROR]" << RESET << FOREGROUND_RED << ": " << message << FOREGROUND_WHITE << std::endl;
+#define ERROR(message) std::cout << FOREGROUND_RED << BOLD << INVERT << "[ERROR]" << RESET << FOREGROUND_RED << "\nwhere: line " << __LINE__ << " at " << __func__ << " in " << __FILE__ << "\n" << message << FOREGROUND_WHITE << std::endl;
 #define WARNING(message) std::cout << FOREGROUND_YELLOW << BOLD << INVERT << "[WARNING]" << RESET << FOREGROUND_YELLOW << ": " << message << FOREGROUND_WHITE << std::endl;
 #define MESSAGE(message) std::cout << FOREGROUND_BLUE << BOLD << INVERT << "[MESSAGE]" << RESET << FOREGROUND_BLUE << ": " << message << FOREGROUND_WHITE << std::endl;
 #define SUCCESS(message) std::cout << FOREGROUND_GREEN << BOLD << INVERT << "[SUCCESS]" << RESET << FOREGROUND_GREEN << ": " << message << FOREGROUND_WHITE << std::endl;
@@ -59,16 +59,16 @@
  */
 inline void debug_init() {
     #if __MINGW32__
-    HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
-    if (hOut == INVALID_HANDLE_VALUE)
-        std::cout << "Couldn't initialize Debug Interface. Invalid output handle!" << std::endl;
-    DWORD dwMode = 0;
-    if (!GetConsoleMode(hOut, &dwMode))
-        std::cout << "Unable to get console mode" << std::endl;
+        HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
+        if (hOut == INVALID_HANDLE_VALUE)
+            std::cout << "Couldn't initialize Debug Interface. Invalid output handle!" << std::endl;
+        DWORD dwMode = 0;
+        if (!GetConsoleMode(hOut, &dwMode))
+            std::cout << "Unable to get console mode" << std::endl;
 
-    dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-    if (!SetConsoleMode(hOut, dwMode))
-        std::cout << "Unable to set console mode" << std::endl;
+        dwMode |= ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        if (!SetConsoleMode(hOut, dwMode))
+            std::cout << "Unable to set console mode" << std::endl;
     #endif
 }
 
@@ -161,37 +161,6 @@ class Terminal {
         }
 
         void draw_window(TerminalWindow window, wchar_t* buffer, uint32_t offsetX, uint32_t offsetY) {
-            /* std::wcout << LEFT_TOP;
-            int32_t passed = 0;
-
-            for(uint32_t x = 0; x < window.width - 2; x++) {
-                if(passed)
-                    std::wcout << ROOF;
-                else {
-                    if(!window.name || window.name[x] == '\0') {
-                        passed = 1;
-                        std::wcout << ROOF;
-                        continue;
-                    }
-                    std::wcout << INVERT << window.name[x] << REINVERT;
-                }
-            } std::wcout << RIGHT_TOP << "\n";
-
-            for(uint32_t y = 0; y < window.height - 2; y++) {
-                std::wcout << WALL;
-                for(uint32_t x = 0; x < window.width - 2; x++)
-                    std::wcout << " ";
-                std::wcout << WALL << "\n";
-            } 
-            
-            std::wcout << LEFT_BOTTOM;
-            for(uint32_t x = 0; x < window.width - 2; x++) {
-                std::wcout << ROOF;
-            } std::wcout << RIGHT_BOTTOM;
-
-            std::wcout << "\r" << CURSOR_UP(window.height - 2 - window.padding) << CURSOR_FORWARD(1 + window.padding * 2) << "pepik";
-            std::flush(std::wcout); */
-
             uint32_t oX = offsetX;
             uint32_t oY = offsetY;
 
