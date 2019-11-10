@@ -16,7 +16,3 @@ file(GLOB SRC
 
 add_library(${PROJECT_NAME}
     ${SRC})
-
-add_executable("${PROJECT_NAME}exe"
-    main.cpp
-    ${SRC})
