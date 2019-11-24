@@ -117,5 +117,5 @@ float avg::PerlinNoise::eval(float x, float y, float z) {
         float e = lerp(a, b, v); 
         float f = lerp(c, d, v); 
  
-        return lerp(e, f, w) + 0.5f; // g 
+        return lerp(e, f, w) + 0.5f;  
 }
