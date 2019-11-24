@@ -47,10 +47,36 @@
 #define CURSOR_SHOW         "\033[25h"
 #define CURSOR_HIDE         "\033[25l"
 
-#define ERROR(message) std::cout << FOREGROUND_RED << BOLD << INVERT << "[ERROR]" << RESET << FOREGROUND_RED << "\nwhere: line " << __LINE__ << " at " << __func__ << " in " << __FILE__ << "\n" << message << FOREGROUND_WHITE << std::endl;
+#define ERROR(message) std::cout << FOREGROUND_RED << BOLD << INVERT << "[ERROR]" << RESET << FOREGROUND_RED << ": " << message << FOREGROUND_WHITE << std::endl;
 #define WARNING(message) std::cout << FOREGROUND_YELLOW << BOLD << INVERT << "[WARNING]" << RESET << FOREGROUND_YELLOW << ": " << message << FOREGROUND_WHITE << std::endl;
 #define MESSAGE(message) std::cout << FOREGROUND_BLUE << BOLD << INVERT << "[MESSAGE]" << RESET << FOREGROUND_BLUE << ": " << message << FOREGROUND_WHITE << std::endl;
 #define SUCCESS(message) std::cout << FOREGROUND_GREEN << BOLD << INVERT << "[SUCCESS]" << RESET << FOREGROUND_GREEN << ": " << message << FOREGROUND_WHITE << std::endl;
+
+#if DEBUG && __linux__
+    #define ASSERT(exp) {                                                                                           \
+        if(!(exp)) {                                                                                                \
+            ERROR("Assertion failed in " << __FILE__ << " at " << __func__ << " on line " << __LINE__);             \
+            raise(SIGTRAP);                                                                                         \
+        }                                                                                                           \
+    } 
+    #define ASSERT_MSG(exp, msg) {                                                                                  \
+        if(!(exp)) {                                                                                                \
+            ERROR("Assertion failed in " << __FILE__ << " at " << __func__ << " on line " << __LINE__ << "\n" <<    \
+            message);                                                                                               \
+            raise(SIGTRAP);                                                                                         \
+        }                                                                                                           \
+    }
+#elif (defined(DEBUG) && defined(__win32__)) 
+    #define ASSERT(exp)             assert(exp)
+    #define ASSERT_MSG(exp, msg)    assert(exp)
+#else
+    #define ASSERT(exp)             ((void)(exp))
+    #define ASSERT(exp, msg)        ((void)(exp))
+#endif
+
+#if !defined(assert)
+    #define assert(exp)             ASSERT(exp)
+#endif
 
 /**
  * @brief  There might be some things to get ready
