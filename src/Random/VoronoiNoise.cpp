@@ -1,12 +1,12 @@
-#include "VoronoiNoise.h"
+#include "avg/Random/VoronoiNoise.h"
 
 #include <cstdint>
 #include <cmath>
 #include <random>
 #include <functional>
-#include <Math/vector.h>
 
-#include "Debug.h"
+#include "avg/Math/vector.h"
+#include "avg/Debug.h"
 
 void VoronoiNoise::init(uint32_t seed, uint32_t size) {
     this->size = size;

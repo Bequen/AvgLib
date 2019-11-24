@@ -1,7 +1,7 @@
 #pragma once
 
 #include <cstdint>
-#include <Math/float2.h>
+#include "avg/Math/float2.h"
 
 class VoronoiNoise {
     public:

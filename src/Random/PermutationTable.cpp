@@ -1,4 +1,4 @@
-#include "PermutationTable.h"
+#include "avg/Random/PermutationTable.h"
 
 #include <random>
 #include <functional>

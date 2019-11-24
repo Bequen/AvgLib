@@ -1,6 +1,6 @@
 #pragma once
 
-#include "Math/float3.h"
+#include "avg/Math/float3.h"
 #include <cstdint>
 #include "PermutationTable.h"
 
