@@ -12,22 +12,11 @@ AvgLib, stands for average library, is simple C++ library with feathures like Pe
 
 ## How to Use?
 
-This is a CMake library, this means you need to download the source code and put it to your project files. It is designed that way. Source files already contains CMakeLists.txt to compile successfully, so then, add `add_subdirectory("dirToThisLib")` to your main CMakeLists.txt.
+AvgLib is built to be used directly in project and being compiled alongside it. So, usually you will want to create `third-party` directory in your project files, place the source code of **AvgLib** there and in your **Makefile** use `$(MAKE) path/to/AvgLib/Makefile`.
 
-Now, to actually use the library, add `target_link_library(YourTarget avg)`.
+Also, do not forget to include the directory with `-I./dir/to/AvgLib/include/` and link the library with `-lAvgLib`, to tell where to find the static link library (.a file), use `-L./dir/to/AvgLib/`.
 
-Meaning, the final CMakeFile would possibly look like this:
+The resulting compile command should then look like this:
+`${CXX_COMPILER} ${CXX_FLAGS} -o ${PROJECT_NAME} -L./dir/to/AvgLib/ -I./dir/to/AvgLib/include/ -lAvgLib`
 
-```
-project(MyProject)
-
-file(GLOB CPP_FILES
-    ./*.cpp
-) file (GLOB H_FILES 
-    ./*.h
-)
-
-add_executable(${PROJECT_NAME} CPP_FILES H_FILES)
-
-target_link_library(${PROJECT_NAME} avg)
-```
+In your C++ code including <avg/*.h> should do the job.
