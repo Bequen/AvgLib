@@ -18,43 +18,25 @@ namespace avg
      */
     namespace File
     {
-        #if __linux__
-        inline char* get_home_dir() {
-
-        }
-        #endif
-
-        #if __MINGW32__ || __WIN32__
-        inline char* get_appdata_dir() {
-            return getenv("APPDATA");
-        }
-        #endif
-
-        namespace Dir {
-            char* go_back_cpy(char* path) {
-                char* result = new char[StringLib::length(path)];
-                
-                for(uint32_t i = StringLib::length(path); i >= 0; i--) {
-                    if(path[i] == DIRECTORY_SEPARATOR) {
-                        memcpy(result, path, i);
-                        result[i] = '\0';
-
-                        break;
-                    }
-                }
+        /**
+         * @brief  Returns path to executable
+         * @note   
+         * @retval 
+         */
+        char* exe_path() {
+            #if _WIN32
+                char* result = new char[256];
+                GetModuleFileName(NULL, result, 256);
+                result[strlen(result)] = '\0';
 
                 return result;
-            }
-
-            void go_back(char* path) {
-                for(uint32_t i = StringLib::length(path); i >= 0; i--) {
-                    if(path[i] == DIRECTORY_SEPARATOR) {
-                        path[i] = '\0';
-                        break;
-                    }
-                }
-            }
-        };
+            #elif __linux__
+                char* result = new char[256];
+                //uint32_t length = readlink( "/proc/self/exe", result, 256);
+                
+                return result;
+            #endif
+        }
     };
 
     /**

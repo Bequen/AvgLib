@@ -10,3 +10,4 @@ libAvgLib.a
 
 # Files that should be excluded
 *.o
+*.a
