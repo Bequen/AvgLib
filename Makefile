@@ -1,6 +1,6 @@
 PROJECT_NAME=AvgLib
 CPP_COMPILER=g++
-CPP_FLAGS=-std=c++2a
+CPP_FLAGS=-std=c++2a -DDEBUG
 
 SOURCE=$(wildcard ./src/*.cpp) $(wildcard ./src/Math/*.cpp) $(wildcard ./src/Random/*.cpp) $(wildcard ./src/Terminal/*.cpp)
 INCLUDE=$(wildcard ./include/avg/*.h) $(wildcard ./include/avg/Math/*.h) $(wildcard ./include/avg/Random/*.h) $(wildcard ./src/Terminal/*.h)

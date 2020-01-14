@@ -56,7 +56,6 @@
 #define SUCCESS(message) std::cout << FOREGROUND_GREEN << BOLD << INVERT << "[SUCCESS]" << RESET << FOREGROUND_GREEN << ": " << message << FOREGROUND_WHITE << std::endl;
 
 
-
 #if DEBUG && __linux__
     #define ASSERT(exp) {                                                                                           \
         if(!(exp)) {                                                                                                \
@@ -81,6 +80,10 @@
 
 #if !defined(assert)
     #define assert(exp)             ASSERT(exp)
+#endif
+
+#if !defined(assert_msg)
+    #define assert_msg(exp, msg)             ASSERT_MSG(exp, msg)
 #endif
 
 
