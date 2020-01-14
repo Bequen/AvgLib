@@ -9,6 +9,7 @@
 #include <iostream>
 #include <streambuf>
 #include <cstdio>
+#include <csignal>
 
 #if __linux__
     #include <sys/ioctl.h>
