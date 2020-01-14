@@ -66,7 +66,7 @@
     #define ASSERT_MSG(exp, msg) {                                                                                  \
         if(!(exp)) {                                                                                                \
             ERROR("Assertion failed in " << __FILE__ << " at " << __func__ << " on line " << __LINE__ << "\n" <<    \
-            message);                                                                                               \
+            msg);                                                                                               \
             raise(SIGTRAP);                                                                                         \
         }                                                                                                           \
     }
