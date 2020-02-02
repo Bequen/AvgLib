@@ -10,8 +10,9 @@ OBJ=${SOURCE:.cpp=.o}
 lib${PROJECT_NAME}.a: ${OBJ}
 	@ar rvs lib${PROJECT_NAME}.a $^
 
+.PHONY: test
 test: ${OBJ} main.cpp
-	@${CPP_COMPILER} ${CPP_FLAGS} -o $@ $^ -I./include/
+	@${CPP_COMPILER} ${CPP_FLAGS} -O0 -g3 -ggdb -DDEBUG -o $@ $^ -I./include/
 ${OBJ} : %.o : %.cpp ${INCLUDE}
 	@${CPP_COMPILER} ${CPP_FLAGS} -c -o $@ $< -I./include/
 
