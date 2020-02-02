@@ -10,8 +10,12 @@
 #include "avg/Math/Math.h"
 #include "avg/Math/vector.h"
 
-avg::PerlinNoise::PerlinNoise(PermutationTable permutationTable) : 
-size(256), sizeMask(255), gradients(new avg::math::float3[size]), permutationTable(permutationTable) {
+void avg::PerlinNoise::init(PermutationTable permutationTable) { 
+    this->size = 256; 
+    this->sizeMask = 255;
+    this->gradients = new avg::math::float3[size];
+    this->permutationTable = permutationTable;
+
     seed = std::rand();
 
     std::mt19937 generator(seed);
@@ -27,8 +31,13 @@ size(256), sizeMask(255), gradients(new avg::math::float3[size]), permutationTab
     }
 }
 
-avg::PerlinNoise::PerlinNoise(PermutationTable permutationTable, uint32_t seed) :
-seed(seed), gradients(new avg::math::float3[256]), size(256), sizeMask(255), permutationTable(permutationTable) {
+void avg::PerlinNoise::init(PermutationTable permutationTable, uint32_t seed) {
+    this->seed = seed; 
+    this->gradients = new avg::math::float3[256]; 
+    this->size = 256;
+    this->sizeMask = 255;
+    this->permutationTable = permutationTable;
+
     std::mt19937 generator(seed);
     std::uniform_real_distribution distribution;
     auto dice = std::bind(distribution, generator);

@@ -20,7 +20,7 @@ namespace avg {
              * @brief  Default constructor
              * @note   Gives all the values their default state
              */
-            PerlinNoise(PermutationTable permutationTable);
+            void init(PermutationTable permutationTable);
 
             /**
              * @brief  Constructor that allows specific seed
@@ -28,7 +28,7 @@ namespace avg {
              * @param  seed: Seed that will be used for generator
              * @retval 
              */
-            PerlinNoise(PermutationTable permutationTable, uint32_t seed);
+            void init(PermutationTable permutationTable, uint32_t seed);
 
             /**
              * @brief  Evaluate noise at specific position
