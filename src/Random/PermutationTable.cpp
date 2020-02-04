@@ -21,7 +21,7 @@ void PermutationTable::init(uint32_t seed) {
 
     // create permutation table
     for (unsigned i = 0; i < size; ++i)
-        std::swap(permutationTable[i], permutationTable[diceInt() & sizeMask]);
+        std::swap(permutationTable[i], permutationTable[diceInt() % size]);
     // extend the permutation table in the index range [256:512]
     for (unsigned i = 0; i < size; ++i) {
         permutationTable[size + i] = permutationTable[i];
