@@ -1,5 +1,7 @@
 # Editor's metafiles, please, feel free to add here if you find some more, like Atom etc.
 .vscode/
+build/
+obj/
 
 # Executables
 avgLib
