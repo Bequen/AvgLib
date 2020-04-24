@@ -6,7 +6,7 @@
 char** avg::StringLib::split(const char* str, const char splitter, uint32_t* splitCount) {
     uint32_t length = 0;
     for( ; str[length] != '\0'; length++) {
-        if(str[length] == splitter && (str[length - 1] != splitter)) {
+        if(str[length] == splitter && length > 0 && (str[length - 1] != splitter)) {
             *splitCount += 1;
         }
     }
@@ -22,7 +22,7 @@ char** avg::StringLib::split(const char* str, const char splitter, uint32_t* spl
 
     splits[0] = &resultStr[0];
     for(uint32_t i = 0; i < length; i++) {
-        if(str[i] == splitter) {
+        if(str[i] == splitter && i > 0) {
             resultStr[i] = '\0';
             splits[index] = &resultStr[i + 1];
             if(resultStr[i - 1] == '\0') {

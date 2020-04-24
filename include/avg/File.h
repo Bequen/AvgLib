@@ -18,25 +18,7 @@ namespace avg
      */
     namespace File
     {
-        /**
-         * @brief  Returns path to executable
-         * @note   
-         * @retval 
-         */
-        char* exe_path() {
-            #if _WIN32
-                char* result = new char[256];
-                GetModuleFileName(NULL, result, 256);
-                result[strlen(result)] = '\0';
 
-                return result;
-            #elif __linux__
-                char* result = new char[256];
-                //uint32_t length = readlink( "/proc/self/exe", result, 256);
-                
-                return result;
-            #endif
-        }
     };
 
     /**
@@ -49,6 +31,8 @@ namespace avg
             char *path;       // Path to the file that is being watched
             time_t lastCheck; // Last time file change was detected
 
+            FileWatcher();
+
             /**
              * @brief  Creates new FileWatcher instance
              * @param  path[]: Path to the file that will be watched
@@ -60,5 +44,7 @@ namespace avg
              * @retval Returns true if file was changed from last check
              */
             bool check();
+
+            void assign(char* path);
     };
 }; 
